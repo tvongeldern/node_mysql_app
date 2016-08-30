@@ -1,0 +1,27 @@
+html {
+    color: purple;
+}
+
+html body h1 {
+    border-bottom: .2rem solid yellow;
+}
+
+button {
+    font-size: 1rem;
+    color: yellow;
+    background-color: purple;
+    padding: .8rem;
+    border: .2rem solid purple;
+    border-radius: .25rem;
+    box-shadow: .25rem .25rem 1rem .1rem #333;
+    cursor: pointer;
+}
+
+button:focus {
+    outline: none
+}
+
+button:active {
+    color: purple;
+    background-color: white;
+}

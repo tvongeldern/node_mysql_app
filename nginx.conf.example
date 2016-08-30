@@ -1,0 +1,54 @@
+user  tvongeldern staff;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include /usr/local/etc/nginx/mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
+    #access_log  logs/access.log  main;
+    #gzip  on;
+    fastcgi_buffers 8 16k;
+    fastcgi_buffer_size 32k;
+
+    server {
+        listen       80;
+        server_name  localhost 127.0.0.1;
+
+        #charset koi8-r;
+        #access_log  logs/host.access.log  main;
+
+        root /Users/tvongeldern/Desktop/repos/myProject/dist/;
+
+        location / {
+            include /usr/local/etc/nginx/mime.types;
+        }
+
+        location /node/ {
+		    rewrite ^/node/?(.*)$ /$1 break;
+		    proxy_pass  http://127.0.0.1:8080;
+		    #proxy_set_header Host $host;
+		    #proxy_set_header X-Real-IP $remote_addr;
+		    #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		}
+
+        error_page  405     =200 $uri;
+
+        #rewrite ^/$ /static/;
+
+    }
+
+	include servers/*;
+}
